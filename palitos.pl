@@ -60,9 +60,11 @@ tiene(yo,dragon,1).
 tiene(el,dragon,8).
 %tiene(el,lechuza,1).
 % tieneTodosDe/2: si la persona tiene todos los animales de ese medio o clase.
-tieneTodosDe(Persona,Clase):-tiene(Persona,_,_),animal(_,Clase,_),forall(tiene(Persona,Animal,_),animal(Animal,Clase,_)).
-
-tieneTodosDe(Persona,Medio):-tiene(Persona,_,_),animal(_,_,Medio),forall(tiene(Persona,Animal,_),animal(Animal,_,Medio) ).
+% tieneTodosDe(Persona,Clase):-tiene(Persona,_,_),animal(_,Clase,_),forall(tiene(Persona,Animal,_),animal(Animal,Clase,_)).
+% tieneTodosDe(Persona,Medio):-tiene(Persona,_,_),animal(_,_,Medio),forall(tiene(Persona,Animal,_),animal(Animal,_,Medio) ).
+tieneTodosDe(Persona,Raza):-tiene(Persona,_,_),clasificacion(_,Raza),forall(tiene(Persona,Animal,_),clasificacion(Animal,Raza) )
+clasificacion(Animal,Raza):-animal(Animal,_,Raza).
+clasificacion(Animal,Raza):-animal(Animal,Raza,_).
 % completoLaColeccion/1: si la persona tiene todos los animales.
 completoLaColeccion(Persona):-tiene(Persona,_,_),forall(animal(Animal,_,_),tiene(Persona,Animal,_)).
 % delQueMasTiene/2: si la persona tiene más de este animal que del resto.
