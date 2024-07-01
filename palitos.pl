@@ -72,3 +72,13 @@ delQueMasTiene(Persona,Animal):-tiene(Persona,Animal,Cant),
         OtraCant>Cant,
         Animal\=OtroAnimal
     )).
+
+tieneParaCambiar(Persona,Animal):- tiene(Persona,Animal,_),not(leGusta(Persona,Animal)).
+tieneParaCambiar(Persona,Animal):- tiene(Persona,Animal,Cant),Cant>1.
+tieneParaCambiar(juanR,Animal):-tiene(juanDS,Animal,_).%????
+
+tieneParaOfrecer(Vendedor,Comprador):- tieneParaCambiar(Vendedor,Animal),leGusta(Comprador),not(tiene(Comprador,Animal,_)),
+
+puedenNegociar(Persona1,Persona2):-tieneParaCambiar(Persona1,Persona2),tieneParaCambiar(Persona2,Persona1).
+
+manejaElMercado(Vendedor,Comprador)
