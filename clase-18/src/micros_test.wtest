@@ -1,0 +1,83 @@
+import micros.*
+
+test "Un apurado siempre se va a poder subir a un micro con espacio" {
+	const microConEspacio = new Micro(
+		capacidadSentados=10,
+		capacidadParados=10,
+		volumen=200)
+	const unApurado = new PersonaApurada()
+
+	assert.that(
+		microConEspacio.puedeSubirse(unApurado)
+	)
+}
+
+test "Nadie puede subirse a un micro lleno" {
+	const microLleno = new Micro(
+		capacidadSentados=10,
+		capacidadParados=10,
+		cantidadDePasajeros=20,
+		volumen=200
+	)
+	const unaPersona = new PersonaApurada()
+
+	assert.notThat(
+		microLleno.puedeSubirse(unaPersona)
+	)
+}
+
+test "Un claustrofobico no se sube a un micro si tiene menos de 120m3" {
+	const microChico = new Micro(
+		capacidadSentados=10,
+		capacidadParados=10,
+		volumen=100
+	)
+	const unClaustrofobico = new PersonaClaustrofobica()
+
+	assert.notThat(
+		microChico.puedeSubirse(unClaustrofobico)
+	)
+}
+
+test "Un claustrofobico NO se sube a un micro si tiene 120m3" {
+	const microChico = new Micro(
+		capacidadSentados=10,
+		capacidadParados=10,
+		volumen=120
+	)
+	const unClaustrofobico = new PersonaClaustrofobica()
+
+	assert.notThat(
+		microChico.puedeSubirse(unClaustrofobico)
+	)
+}
+
+test "Un claustrofobico se sube a un micro si tiene mas de 120m3" {
+	const microChico = new Micro(
+		capacidadSentados=10,
+		capacidadParados=10,
+		volumen=121
+	)
+	const unClaustrofobico = new PersonaClaustrofobica()
+
+	assert.that(
+		microChico.puedeSubirse(unClaustrofobico)
+	)
+}
+
+test "al subirse una persona a un micro, disminuye el espacio libre en 1" {
+	var micro = new Micro(capacidadSentados=5, capacidadParados=5, volumen=100)
+	var persona = new PersonaApurada()
+
+	micro.seSube(persona)
+
+	assert.equals(9, micro.espacioDisponible())
+}
+
+test "si se trata de subir una persona que no puede subir, falla" {
+	var micro = new Micro(capacidadSentados=5, capacidadParados=5, volumen=100)
+	var persona = new PersonaClaustrofobica()
+
+	assert.throwsException { micro.seSube(persona) }
+	assert.equals(10, micro.espacioDisponible())
+}
